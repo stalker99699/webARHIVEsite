@@ -1,1 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCHIVE - Darknet Directory</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="loadSites()">
+    <h1>ARCHIVE - Darknet Style Directory</h1>
+    <p>Standalone sites from the list/ directory. Search to filter:</p>
+    <input type="text" id="search" placeholder="Search sites..." oninput="filterSites()">
+    <ul id="sites"></ul>
+    
+    <script>
+        let sitesData = []; // Global for search
 
+        function loadSites() {
+            fetch('data.json')
+                .then(response => response.json())
+                .then(data => {
+                    sitesData = data;
+                    renderSites(data);
+                })
+                .catch(error => console.error('Error loading data:', error));
+        }
+
+        function renderSites(sites) {
+            const list = document.getElementById('sites');
+            list.innerHTML = ''; // Clear
+            sites.forEach(site => {
+                const li = document.createElement('li');
+                li.className = 'site-card';
+                li.innerHTML = `
+                    <a href="${site.url}">${site.name}</a>
+                    <p>${site.description}</p>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        function filterSites() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const filtered = sitesData.filter(site => 
+                site.name.toLowerCase().includes(query) || 
+                site.description.toLowerCase().includes(query)
+            );
+            renderSites(filtered);
+        }
+    </script>
+</body>
+</html>
