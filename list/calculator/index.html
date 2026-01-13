@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Многофункциональный Калькулятор</title>
+    <!-- Внешние библиотеки -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.min.js"></script>
+    <!-- Подключение CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button id="theme-toggle">🌙</button>
+    <div class="container">
+        <h1>Многофункциональный Калькулятор</h1>
+        <select id="calc-type">
+            <option value="standard">Стандартный</option>
+            <option value="programmer">Программиста</option>
+            <option value="financial">Финансовый</option>
+            <option value="graph-2d">Графический 2D</option>
+            <option value="graph-3d">Графический 3D</option>
+            <option value="scientific">Научный</option>
+        </select>
+
+        <!-- Стандартный калькулятор -->
+        <div id="standard" class="calc-section active">
+            <input type="text" id="display" readonly>
+            <div class="buttons">
+                <button onclick="appendToDisplay('7')">7</button>
+                <button onclick="appendToDisplay('8')">8</button>
+                <button onclick="appendToDisplay('9')">9</button>
+                <button onclick="appendToDisplay('/')">/</button>
+                <button onclick="appendToDisplay('4')">4</button>
+                <button onclick="appendToDisplay('5')">5</button>
+                <button onclick="appendToDisplay('6')">6</button>
+                <button onclick="appendToDisplay('*')">*</button>
+                <button onclick="appendToDisplay('1')">1</button>
+                <button onclick="appendToDisplay('2')">2</button>
+                <button onclick="appendToDisplay('3')">3</button>
+                <button onclick="appendToDisplay('-')">-</button>
+                <button onclick="appendToDisplay('0')">0</button>
+                <button onclick="appendToDisplay('.')">.</button>
+                <button onclick="calculate()">=</button>
+                <button onclick="appendToDisplay('+')">+</button>
+                <button onclick="clearDisplay()">C</button>
+            </div>
+        </div>
+
+        <!-- Калькулятор программиста -->
+        <div id="programmer" class="calc-section">
+            <select id="base" class="extra-input">
+                <option value="10">DEC</option>
+                <option value="16">HEX</option>
+                <option value="8">OCT</option>
+                <option value="2">BIN</option>
+            </select>
+            <input type="text" id="prog-display" readonly>
+            <div class="buttons">
+                <button onclick="progAppend('7')">7</button>
+                <button onclick="progAppend('8')">8</button>
+                <button onclick="progAppend('9')">9</button>
+                <button onclick="progOp('AND')">AND</button>
+                <button onclick="progAppend('4')">4</button>
+                <button onclick="progAppend('5')">5</button>
+                <button onclick="progAppend('6')">6</button>
+                <button onclick="progOp('OR')">OR</button>
+                <button onclick="progAppend('1')">1</button>
+                <button onclick="progAppend('2')">2</button>
+                <button onclick="progAppend('3')">3</button>
+                <button onclick="progOp('XOR')">XOR</button>
+                <button onclick="progAppend('0')">0</button>
+                <button onclick="progOp('<<')">&lt;&lt;</button>
+                <button onclick="progCalculate()">=</button>
+                <button onclick="progOp('>>')">&gt;&gt;</button>
+                <button onclick="progClear()">C</button>
+                <button onclick="progAppend('A')">A</button>
+                <button onclick="progAppend('B')">B</button>
+                <button onclick="progAppend('C')">C</button>
+                <button onclick="progAppend('D')">D</button>
+                <button onclick="progAppend('E')">E</button>
+                <button onclick="progAppend('F')">F</button>
+            </div>
+        </div>
+
+        <!-- Финансовый калькулятор -->
+        <div id="financial" class="calc-section">
+            <input type="text" id="fin-amount" placeholder="Сумма" class="extra-input">
+            <input type="text" id="fin-rate" placeholder="Процентная ставка" class="extra-input">
+            <input type="text" id="fin-period" placeholder="Период (лет)" class="extra-input">
+            <button onclick="calcCompound()">Рассчитать сложный процент</button>
+            <input type="text" id="fin-result" readonly>
+        </div>
+
+        <!-- Графический 2D -->
+        <div id="graph-2d" class="calc-section">
+            <input type="text" id="function-2d" placeholder="Функция, напр. sin(x) + cos(x)">
+            <button onclick="plot2D()">Построить график</button>
+            <canvas id="graph-2d-canvas"></canvas>
+        </div>
+
+        <!-- Графический 3D -->
+        <div id="graph-3d" class="calc-section">
+            <input type="text" id="function-3d" placeholder="Функция z =, напр. sin(sqrt(x^2 + y^2))">
+            <button onclick="plot3D()">Построить 3D график</button>
+            <div id="graph-3d-container"></div>
+        </div>
+
+        <!-- Научный калькулятор -->
+        <div id="scientific" class="calc-section">
+            <input type="text" id="sci-display" readonly>
+            <div class="buttons">
+                <button onclick="sciAppend('sin(')">sin</button>
+                <button onclick="sciAppend('cos(')">cos</button>
+                <button onclick="sciAppend('tan(')">tan</button>
+                <button onclick="sciAppend('log(')">log</button>
+                <button onclick="sciAppend('7')">7</button>
+                <button onclick="sciAppend('8')">8</button>
+                <button onclick="sciAppend('9')">9</button>
+                <button onclick="sciAppend('/')">/</button>
+                <button onclick="sciAppend('4')">4</button>
+                <button onclick="sciAppend('5')">5</button>
+                <button onclick="sciAppend('6')">6</button>
+                <button onclick="sciAppend('*')">*</button>
+                <button onclick="sciAppend('1')">1</button>
+                <button onclick="sciAppend('2')">2</button>
+                <button onclick="sciAppend('3')">3</button>
+                <button onclick="sciAppend('-')">-</button>
+                <button onclick="sciAppend('0')">0</button>
+                <button onclick="sciAppend('.')">.</button>
+                <button onclick="sciCalculate()">=</button>
+                <button onclick="sciAppend('+')">+</button>
+                <button onclick="sciAppend('^')">^</button>
+                <button onclick="sciAppend('sqrt(')">√</button>
+                <button onclick="sciAppend('pi')">π</button>
+                <button onclick="sciAppend('e')">e</button>
+                <button onclick="sciClear()">C</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подключение JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
