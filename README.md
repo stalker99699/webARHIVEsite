@@ -1,4 +1,6 @@
 # webARHIVEsite
+🤖 Этот проект на 100% сгенерирован с помощью ИИ. Простите меня. / 🤖 This project is 100% AI-generated. Forgive me.
+
 A site where you can store active sites / 
 Сайт в котором можно хранить активные сайты
 
