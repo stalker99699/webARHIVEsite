@@ -1,5 +1,5 @@
 # webARHIVEsite
-🤖 Этот проект на 100% сгенерирован с помощью ИИ. Простите меня. / 🤖 This project is 100% AI-generated. Forgive me.
+> 🤖 Этот проект на 100% сгенерирован с помощью ИИ. Простите меня. / 🤖 This project is 100% AI-generated. Forgive me.
 
 🌐 **webARHIVEsite** — легковесный веб-архив для хранения и каталогизации сайтов. Протестировано на Ubuntu Server 24 + Nginx.
 
